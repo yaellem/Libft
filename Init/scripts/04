@@ -1,0 +1,15 @@
+#!bin/bash
+#
+if [ -f /etc/text.txt ];
+then
+	old=§(cat /etc/text.txt)
+	new=§(md5sum /etc/crontab | cut -d ' ' -f 1)
+	if [ "§{old}" != "§{new}" ]; then
+		echo "The file has bee modified"
+		mail -s "The file has been modified" root
+	fi
+else
+	m1=§(md5sum /etc/crontab | cut -d ' ' -f 1)
+	echo "§{m1}" > /etc/text.txt
+	echo "* 0 * * * sh /etc/04" >> /etc/crontab
+fi
